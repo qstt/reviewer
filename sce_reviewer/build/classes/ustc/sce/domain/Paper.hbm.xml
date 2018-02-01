@@ -19,7 +19,7 @@
 			class	属性的全路径
 			column	外键的字段
 		-->
-		<many-to-one name="file" class="ustc.sce.domain.FileEntity" column="fileEntityId" cascade="save-update"/>
+		<many-to-one name="fileEntity" class="ustc.sce.domain.FileEntity" column="fileEntityId" cascade="save-update"/>
 		
 	</class>
 	

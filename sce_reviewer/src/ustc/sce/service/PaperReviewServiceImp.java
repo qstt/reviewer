@@ -21,4 +21,12 @@ public class PaperReviewServiceImp implements PaperReviewService {
 		return paperReview;
 	}
 
+
+	public PaperReview changeReview(int paperStatus, String paperTitle) {
+
+		PaperReview paperReview = paperReviewDao.changeReview(paperStatus,paperTitle);
+		
+		return paperReview;
+	}
+
 }

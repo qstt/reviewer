@@ -6,4 +6,6 @@ public interface PaperReviewService {
 
 	PaperReview notReview(int paperStatus, String paperTitle);
 
+	PaperReview changeReview(int paperStatus, String paperTitle);
+
 }

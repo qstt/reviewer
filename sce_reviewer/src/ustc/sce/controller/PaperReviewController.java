@@ -31,5 +31,17 @@ public class PaperReviewController {
 		return JSON.toJSONString(new Response().failure("notReview Failure..."));
 		
 	}
+	
+	@RequestMapping(value = "/change-review",method = RequestMethod.POST)
+	public String changeReview(@RequestParam("paperStatus") int paperStatus,@RequestParam("paperTitle") String paperTitle) {
+		
+		PaperReview paperReview = paperReviewService.changeReview(paperStatus,paperTitle);
+		
+		if (paperReview != null) {
+			return JSON.toJSONString(new Response().success(paperReview));
+		}
+		return JSON.toJSONString(new Response().failure("changeReview Failure..."));
+		
+	}
 
 }
