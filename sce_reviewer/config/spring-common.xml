@@ -65,14 +65,16 @@
 	<!-- 开启事务的注解 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
-	<!-- 用户登录 -->
+	<!-- 用户登录、注册 -->
 	<bean id="userService" class="ustc.sce.service.UserServiceImp">
 		<property name="userDao" ref="userDao"></property>
 	</bean>
 	<bean id="userDao" class="ustc.sce.dao.UserDaoImp">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	<bean id="tokenManager" class="ustc.sce.authorization.DefaultTokenManager"></bean>
+	<bean id="tokenManager" class="ustc.sce.authorization.DefaultTokenManager">
+		<property name="tokenUtil" ref="tokenUtil"></property>
+	</bean>
 	
 	<!-- 文件上传 -->
 	<bean id="fileService" class="ustc.sce.service.FileServiceImp">
@@ -82,7 +84,7 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
-	<!-- TokenUtil -->
+	<!-- TokenDao -->
 	<bean id="tokenUtil" class="ustc.sce.utils.TokenUtil">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>

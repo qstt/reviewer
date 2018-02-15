@@ -17,7 +17,6 @@ import ustc.sce.authorization.TokenManager;
 import ustc.sce.domain.Token;
 import ustc.sce.response.Response;
 import ustc.sce.service.UserService;
-import ustc.sce.utils.TokenUtil;
 
 /**
  * 用户控制层    登录 注册
@@ -36,25 +35,24 @@ public class UserController {
 	
 	@RequestMapping(value = "/login",method = RequestMethod.POST)
 	public String login(@RequestParam("userName") String userName,@RequestParam("userPassword") String userPassword,HttpServletResponse response,HttpServletRequest request) {
-		Token tk = new Token();
 		boolean flag = userService.login(userName, userPassword);
 		if (flag) {
-			String token = tokenManager.createToken(userName);
-			Cookie cookie = new Cookie("X-Token", token);
+			Token token = tokenManager.changeToken(userName);
+			String token3 = token.getToken();
+			Cookie cookie = new Cookie("X-Token", token3);
 			response.addCookie(cookie);
-			tk.setUserName(userName);
-			tk.setToken(token);
-			return JSON.toJSONString(new Response().success(tk));
+			return JSON.toJSONString(new Response().success(token));
 		}
 		return JSON.toJSONString(new Response().failure("Login Failure..."));
 	}
 
 	
 	@RequestMapping(value = "/register",method = RequestMethod.POST)
-	public String register(@RequestParam("userName") String userName,@RequestParam("userPassword") String userPassword,@RequestParam("roleName") String roleName,HttpServletRequest request) {
+	public String register(@RequestParam("userName") String userName,@RequestParam("userPassword") String userPassword,@RequestParam("roleName") String roleName,HttpServletResponse response,HttpServletRequest request) {
 		boolean flag = userService.register(userName,userPassword,roleName);
 		if (flag) {
-			return JSON.toJSONString(new Response().success("Register Success..."));
+			Token token = tokenManager.createToken(userName);
+			return JSON.toJSONString(new Response().success(token));
 		}
 		return JSON.toJSONString(new Response().failure("Register Failure..."));
 	}

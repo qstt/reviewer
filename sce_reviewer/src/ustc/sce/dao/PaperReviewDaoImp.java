@@ -10,18 +10,22 @@ import ustc.sce.domain.Paper;
 import ustc.sce.domain.PaperReview;
 import ustc.sce.domain.User;
 import ustc.sce.utils.MD5Utils;
+import ustc.sce.utils.TokenUtil;
 
 public class PaperReviewDaoImp extends HibernateDaoSupport implements PaperReviewDao {
 
-	public PaperReview notReview(int paperStatus, String paperTitle) {
+	private TokenUtil tokenUtil = new TokenUtil();
+	
+	public PaperReview notReview(int paperStatus, String paperTitle,User user) {
 
 		PaperReview paperReview = new PaperReview();
 		Paper paper = new Paper();
-
+		
 		paperReview.setPaperStatus(paperStatus);
 		paper.setPaperTitle(paperTitle);
 		paperReview.setPaper(paper);
-
+		paperReview.setUser(user);
+		
 		this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(paperReview);
 
 		return paperReview;

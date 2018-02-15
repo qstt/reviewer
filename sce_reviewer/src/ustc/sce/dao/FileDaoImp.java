@@ -39,6 +39,8 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
         if(!list.isEmpty()){
         	FileEntity fileEntity = list.get(0);
         	String path = fileEntity.getFilePath();
+        	//path只是文件存储路径的后半部分  加上前面的才是完整的路径
+        	path = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + path;
         	File file = new File(path);
         	this.getHibernateTemplate().getSessionFactory().getCurrentSession().delete(fileEntity);
         	file.delete();

@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ustc.sce.dao.PaperReviewDao;
 import ustc.sce.domain.PaperReview;
+import ustc.sce.domain.User;
 
 @Transactional
 public class PaperReviewServiceImp implements PaperReviewService {
@@ -14,9 +15,9 @@ public class PaperReviewServiceImp implements PaperReviewService {
 	}
 
 
-	public PaperReview notReview(int paperStatus, String paperTitle) {
+	public PaperReview notReview(int paperStatus, String paperTitle,User user) {
 		
-		PaperReview paperReview = paperReviewDao.notReview(paperStatus,paperTitle);
+		PaperReview paperReview = paperReviewDao.notReview(paperStatus,paperTitle,user);
 		
 		return paperReview;
 	}
