@@ -37,11 +37,19 @@
 	</bean>
 	
 	<!-- 上传文件的设置 ，maxUploadSize=-1，表示无穷大。   uploadTempDir：设置上传文件时的临时目录，默认是Servlet容器的临时目录。 -->  
-   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"    
         p:defaultEncoding="UTF-8"    
         p:maxUploadSize="5400000"
-     />    
-
-
+     />   
+     
+    <!-- 拦截器   验证用户是否登录 -->
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/file/**"/>
+    		<mvc:mapping path="/paper-review/**"/>
+    		<bean class="ustc.sce.interceptor.TokenInterceptor"/>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+   
 
 </beans>
