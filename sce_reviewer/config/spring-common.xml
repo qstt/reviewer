@@ -96,5 +96,13 @@
 	<bean id="paperReviewDao" class="ustc.sce.dao.PaperReviewDaoImp">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- 创建论文 -->
+	<bean id="paperService" class="ustc.sce.service.PaperServiceImp">
+		<property name="paperDao" ref="paperDao"></property>
+	</bean>
+	<bean id="paperDao" class="ustc.sce.dao.PaperDaoImp">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 </beans>

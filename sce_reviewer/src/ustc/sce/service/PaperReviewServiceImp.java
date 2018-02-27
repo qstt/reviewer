@@ -15,9 +15,9 @@ public class PaperReviewServiceImp implements PaperReviewService {
 	}
 
 
-	public PaperReview notReview(int paperStatus, String paperTitle,User user) {
+	public PaperReview notReview(int paperStatus, int paperId,User user) {
 		
-		PaperReview paperReview = paperReviewDao.notReview(paperStatus,paperTitle,user);
+		PaperReview paperReview = paperReviewDao.notReview(paperStatus,paperId,user);
 		
 		return paperReview;
 	}

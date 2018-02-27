@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
+import ustc.sce.domain.FileEntity;
 import ustc.sce.domain.Paper;
 import ustc.sce.domain.PaperReview;
 import ustc.sce.domain.User;
@@ -16,13 +17,17 @@ public class PaperReviewDaoImp extends HibernateDaoSupport implements PaperRevie
 
 	private TokenUtil tokenUtil = new TokenUtil();
 	
-	public PaperReview notReview(int paperStatus, String paperTitle,User user) {
+	public PaperReview notReview(int paperStatus, int paperId,User user) {
 
 		PaperReview paperReview = new PaperReview();
-		Paper paper = new Paper();
+		
+		String hql="from Paper as paper where paper.id='"+paperId+"'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<Paper> list = query.list();
+        Paper paper = list.get(0);
 		
 		paperReview.setPaperStatus(paperStatus);
-		paper.setPaperTitle(paperTitle);
 		paperReview.setPaper(paper);
 		paperReview.setUser(user);
 		

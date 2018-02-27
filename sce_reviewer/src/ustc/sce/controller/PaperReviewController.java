@@ -38,12 +38,12 @@ public class PaperReviewController {
 	 * @return
 	 */
 	@RequestMapping(value = "/not-review",method = RequestMethod.POST)
-	public String notReview(@RequestParam("paperStatus") int paperStatus,@RequestParam("paperTitle") String paperTitle,HttpServletRequest request) {
+	public String notReview(@RequestParam("paperStatus") int paperStatus,@RequestParam("paperId") int paperId,HttpServletRequest request) {
 		
 		String header = request.getHeader("X-Token");
 		User user = tokenUtil.getUser(header);
 		
-		PaperReview paperReview = paperReviewService.notReview(paperStatus,paperTitle,user);
+		PaperReview paperReview = paperReviewService.notReview(paperStatus,paperId,user);
 		
 		if (paperReview != null) {
 			return JSON.toJSONString(new Response().success(paperReview));
