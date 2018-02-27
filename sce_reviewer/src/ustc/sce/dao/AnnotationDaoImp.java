@@ -1,0 +1,41 @@
+package ustc.sce.dao;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import ustc.sce.domain.Annotation;
+import ustc.sce.domain.FileEntity;
+import ustc.sce.domain.User;
+
+public class AnnotationDaoImp extends HibernateDaoSupport implements AnnotationDao {
+
+	@Override
+	public boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId, User user) {
+
+		Annotation annotation = new Annotation();
+
+		annotation.setAnnotationSelect(annotationSelect);
+		annotation.setAnnotationContent(annotationContent);
+
+		String hql = "from FileEntity as file where file.id='" + fileId + "'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		Query query = session.createQuery(hql);
+		List<FileEntity> list = query.list();
+		FileEntity fileEntity = list.get(0);
+
+		annotation.setFile(fileEntity);
+		annotation.setUser(user);
+
+		Serializable save = this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(annotation);
+
+		if (save == null) {
+			return false;
+		}
+		return true;
+	}
+
+}

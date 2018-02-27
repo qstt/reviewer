@@ -17,6 +17,7 @@ public class Annotation {
 	private FileEntity file;
 	//关联用户   谁批注的  用户和批注是一对多的关系  批注是多方   只在多方进行关联
 	private User user;
+	
 	public int getId() {
 		return id;
 	}
