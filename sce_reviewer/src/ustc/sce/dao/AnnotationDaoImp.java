@@ -9,12 +9,11 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import ustc.sce.domain.Annotation;
 import ustc.sce.domain.FileEntity;
-import ustc.sce.domain.User;
 
 public class AnnotationDaoImp extends HibernateDaoSupport implements AnnotationDao {
 
 	@Override
-	public boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId, User user) {
+	public boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId) {
 
 		Annotation annotation = new Annotation();
 
@@ -28,7 +27,6 @@ public class AnnotationDaoImp extends HibernateDaoSupport implements AnnotationD
 		FileEntity fileEntity = list.get(0);
 
 		annotation.setFile(fileEntity);
-		annotation.setUser(user);
 
 		Serializable save = this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(annotation);
 

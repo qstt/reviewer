@@ -52,6 +52,7 @@
 				<value>ustc/sce/domain/Token.hbm.xml</value>
 				<value>ustc/sce/domain/PaperReview.hbm.xml</value>
 				<value>ustc/sce/domain/Paper.hbm.xml</value>
+				<value>ustc/sce/domain/Annotation.hbm.xml</value>
 				
 			</list>
 		</property>
@@ -106,7 +107,7 @@
 	</bean>
 	
 	<!-- 文件批注 -->
-	<bean id="annotationServiceImp" class="ustc.sce.service.AnnotationServiceImp">
+	<bean id="annotationService" class="ustc.sce.service.AnnotationServiceImp">
 		<property name="annotationDao" ref="annotationDao"></property>	
 	</bean>
 	<bean id="annotationDao" class="ustc.sce.dao.AnnotationDaoImp">

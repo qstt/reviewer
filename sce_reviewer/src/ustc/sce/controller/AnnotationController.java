@@ -27,16 +27,13 @@ public class AnnotationController {
 	
 	@Resource(name = "tokenUtil")
 	private TokenUtil tokenUtil;
-	@Resource(name = "AnnotationService")
+	@Resource(name = "annotationService")
 	private AnnotationService annotationService;
 	
 	@RequestMapping(value = "/save",method = RequestMethod.POST)
 	public String saveAnnotation(@RequestParam("annotationSelect") String annotationSelect,@RequestParam("annotationContent") String annotationContent,@RequestParam("fileId") int fileId,HttpServletResponse response,HttpServletRequest request) {
 		
-		String header = request.getHeader("X-Token");
-		User user = tokenUtil.getUser(header);
-		
-		boolean flag = annotationService.saveAnnotation(annotationSelect,annotationContent,fileId,user);
+		boolean flag = annotationService.saveAnnotation(annotationSelect,annotationContent,fileId);
 		if(flag) {
 			return JSON.toJSONString(new Response().success("saveAnnotation Success..."));
 		}

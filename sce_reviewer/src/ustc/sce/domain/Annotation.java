@@ -16,7 +16,7 @@ public class Annotation {
 	//关联pdf文件   文件和批注是一对多的关系 批注是多方只在多方进行关联
 	private FileEntity file;
 	//关联用户   谁批注的  用户和批注是一对多的关系  批注是多方   只在多方进行关联
-	private User user;
+	//private User user;    //文件中关联过了user  在这里就不用关联了
 	
 	public int getId() {
 		return id;
@@ -42,14 +42,5 @@ public class Annotation {
 	public void setFile(FileEntity file) {
 		this.file = file;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	
-	
 
 }
