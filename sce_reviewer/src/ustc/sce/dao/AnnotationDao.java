@@ -1,8 +1,9 @@
 package ustc.sce.dao;
 
+import ustc.sce.domain.Annotation;
 
 public interface AnnotationDao {
 
-	boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId);
+	Annotation saveAnnotation(String annotationSelect, String annotationContent, int fileId);
 
 }

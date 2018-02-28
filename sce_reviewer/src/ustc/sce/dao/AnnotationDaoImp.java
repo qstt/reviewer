@@ -1,6 +1,5 @@
 package ustc.sce.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -13,7 +12,7 @@ import ustc.sce.domain.FileEntity;
 public class AnnotationDaoImp extends HibernateDaoSupport implements AnnotationDao {
 
 	@Override
-	public boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId) {
+	public Annotation saveAnnotation(String annotationSelect, String annotationContent, int fileId) {
 
 		Annotation annotation = new Annotation();
 
@@ -28,12 +27,9 @@ public class AnnotationDaoImp extends HibernateDaoSupport implements AnnotationD
 
 		annotation.setFile(fileEntity);
 
-		Serializable save = this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(annotation);
+		this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(annotation);
 
-		if (save == null) {
-			return false;
-		}
-		return true;
+		return annotation;
 	}
 
 }

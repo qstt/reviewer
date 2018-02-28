@@ -43,13 +43,13 @@
      />   
      
     <!-- 拦截器   验证用户是否登录 -->
-    <mvc:interceptors>
+   <!--  <mvc:interceptors>
     	<mvc:interceptor>
-    		<mvc:mapping path="/file/**"/>
-    		<mvc:mapping path="/paper-review/**"/>
+    		<mvc:mapping path="/**"/>
+    		<mvc:exclude-mapping path="/user/**"/>
+    		<mvc:exclude-mapping path="/test/**"/>
     		<bean class="ustc.sce.interceptor.TokenInterceptor"/>
     	</mvc:interceptor>
-    </mvc:interceptors>
-   
+    </mvc:interceptors> -->
 
 </beans>

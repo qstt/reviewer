@@ -1,8 +1,9 @@
 package ustc.sce.service;
 
+import ustc.sce.domain.Annotation;
 
 public interface AnnotationService {
 
-	boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId);
+	Annotation saveAnnotation(String annotationSelect, String annotationContent, int fileId);
 
 }

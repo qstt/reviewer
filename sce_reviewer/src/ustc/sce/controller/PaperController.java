@@ -15,7 +15,8 @@ import ustc.sce.response.Response;
 import ustc.sce.service.PaperService;
 
 /**
- * 创建论文   关联文件（文件单独上传，在创建论文时提供文件的id进行关联）
+ * 创建论文 关联文件（文件单独上传，在创建论文时提供文件的id进行关联）
+ * 
  * @author 秋色天堂
  *
  */
@@ -23,21 +24,23 @@ import ustc.sce.service.PaperService;
 @RestController
 @RequestMapping("/paper")
 public class PaperController {
-	
-	@Resource(name="paperService")
+
+	@Resource(name = "paperService")
 	private PaperService paperService;
-	
-	@RequestMapping(value = "/create",method = RequestMethod.POST)
-	public String createPaper(@RequestParam("paperTitle") String paperTitle,@RequestParam("paperAuthor") String paperAuthor,@RequestParam("paperOwner") String paperOwner,@RequestParam("ispublic") boolean ispublic,@RequestParam("fileId") int fileId,HttpServletResponse response,HttpServletRequest request) {
-		
-		boolean flag = paperService.create(paperTitle,paperAuthor,paperOwner,ispublic,fileId);
-		if(flag) {
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String createPaper(@RequestParam("paperTitle") String paperTitle,
+			@RequestParam("paperAuthor") String paperAuthor, 
+			@RequestParam(value = "paperOwner",required = false) String paperOwner,
+			@RequestParam("ispublic") boolean ispublic, 
+			@RequestParam(value = "fileId",required = false) Integer fileId,
+			HttpServletResponse response, HttpServletRequest request) {
+
+		boolean flag = paperService.create(paperTitle, paperAuthor, paperOwner, ispublic, fileId);
+		if (flag) {
 			return JSON.toJSONString(new Response().success("createPaper Success..."));
 		}
 		return JSON.toJSONString(new Response().failure("createPaper Failure..."));
 	}
-	
-	
-	
-	
+
 }

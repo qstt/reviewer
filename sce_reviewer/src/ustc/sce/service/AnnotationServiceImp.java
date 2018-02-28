@@ -3,6 +3,7 @@ package ustc.sce.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ustc.sce.dao.AnnotationDao;
+import ustc.sce.domain.Annotation;
 
 @Transactional
 public class AnnotationServiceImp implements AnnotationService {
@@ -12,7 +13,7 @@ public class AnnotationServiceImp implements AnnotationService {
 		this.annotationDao = annotationDao;
 	}
 
-	public boolean saveAnnotation(String annotationSelect, String annotationContent, int fileId) {
+	public Annotation saveAnnotation(String annotationSelect, String annotationContent, int fileId) {
 		return annotationDao.saveAnnotation(annotationSelect,annotationContent,fileId);
 	}
 

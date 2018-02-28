@@ -38,4 +38,20 @@ public class UserServiceImp implements UserService {
 		}
 	}
 
+
+	/**
+	 * 检测用户是否已经注册
+	 */
+	public User checkUser(String userName) {
+		return userDao.checkUser(userName);
+	}
+
+
+	@Override
+	public User resetPassword(String userName, String userPassword) {
+		
+		userPassword = MD5Utils.md5(userPassword);
+		return userDao.resetPassword(userName,userPassword);
+	}
+
 }
