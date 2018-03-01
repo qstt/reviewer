@@ -50,6 +50,12 @@ public class FileServiceImp implements FileService {
 	}
 
 
+	@Override
+	public FileEntity getFile(String fileName) {
+		return fileDao.getFile(fileName);
+	}
+
+
 	
 
 }

@@ -17,6 +17,8 @@ public interface FileService {
 	String fielShow(String fileName);
 
 	boolean fileDelete(FileEntity fileEntity);
+
+	FileEntity getFile(String fileName);
 	
 	
 

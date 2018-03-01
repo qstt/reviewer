@@ -18,4 +18,6 @@ public interface FileDao {
 
 	boolean fileDelete(FileEntity fileEntity);
 
+	FileEntity getFile(String fileName);
+
 }

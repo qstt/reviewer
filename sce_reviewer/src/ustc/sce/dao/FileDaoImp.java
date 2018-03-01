@@ -90,6 +90,18 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
 		return list.get(0).getFilePath();
 	}
 
+	@Override
+	public FileEntity getFile(String fileName) {
+		String hql="from FileEntity as file where file.fileName='"+fileName+"'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<FileEntity> list = query.list();
+        if(!list.isEmpty()){
+        	return list.get(0);
+        }
+            return null;
+	}
+
 	
 
 }
