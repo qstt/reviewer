@@ -8,13 +8,15 @@ public interface FileService {
 
 	void FileSave(FileEntity fileUpload);
 
-	boolean fileDelete(FileEntity fileEntity);
+	boolean fileDelete(int fileId);
 
 	boolean fileDelete(String fileName);
 
 	List<FileEntity> fileList();
 
 	String fielShow(String fileName);
+
+	boolean fileDelete(FileEntity fileEntity);
 	
 	
 

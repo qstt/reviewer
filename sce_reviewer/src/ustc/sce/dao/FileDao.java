@@ -8,12 +8,14 @@ public interface FileDao {
 
 	void FileSave(FileEntity fileUpload);
 
-	boolean fileDelete(FileEntity fileEntity);
+	boolean fileDelete(int fileId);
 
 	boolean fileDelete(String fileName);
 
 	List<FileEntity> fileList();
 
 	String fileShow(String fileName);
+
+	boolean fileDelete(FileEntity fileEntity);
 
 }

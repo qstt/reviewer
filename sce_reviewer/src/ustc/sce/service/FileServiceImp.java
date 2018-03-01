@@ -23,24 +23,18 @@ public class FileServiceImp implements FileService {
 
 
 	public boolean fileDelete(FileEntity fileEntity) {
-		boolean fileDelect = fileDao.fileDelete(fileEntity);
-		if (fileDelect) {
-			return true;
-		} else {
-			return false;
-		}
+		return fileDao.fileDelete(fileEntity);
 	}
 
 
 	public boolean fileDelete(String fileName) {
-		boolean fileDelect = fileDao.fileDelete(fileName);
-		if (fileDelect) {
-			return true;
-		} else {
-			return false;
-		}
+		return fileDao.fileDelete(fileName);
 	}
 
+	@Override
+	public boolean fileDelete(int fileId) {
+		return fileDao.fileDelete(fileId);
+	}
 
 	@Override
 	public List<FileEntity> fileList() {
@@ -54,5 +48,8 @@ public class FileServiceImp implements FileService {
 		
 		return fileDao.fileShow(fileName);
 	}
+
+
+	
 
 }

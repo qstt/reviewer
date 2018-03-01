@@ -35,7 +35,7 @@ public class FileController {
 	 * @param file 上传的文件
 	 * @return
 	 */
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload", method = RequestMethod.POST,produces="text/html;charset=utf-8")
 	public String fileUplod(@RequestParam("file") MultipartFile file, HttpServletRequest request)
 			throws Exception, Exception {
 
@@ -62,7 +62,6 @@ public class FileController {
 			// 去掉文件后缀名，保存到数据库中
 			fileName = fileName.substring(0, fileName.lastIndexOf("."));
 			
-
 			String header = request.getHeader("X-Token");
 			User user = tokenUtil.getUser(header);
 			
@@ -71,14 +70,13 @@ public class FileController {
 			fileUpload.setFilePath(filePath1);
 			fileUpload.setUser(user);
 			
-
 			fileService.FileSave(fileUpload);
-
+			//直接返回file的JSON格式，只有txt文件可以上传成功，
+			//pdf和doc文件可以上传到内存中也可以将数据保存在数据库中，但是返回会报500错误
+			//在配置中加上p:maxInMemorySize="54000000"
 			return JSON.toJSONString(new Response().success(file));
-
 		}
 		return JSON.toJSONString(new Response().failure("FileUpload Failure..."));
-
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -96,8 +94,7 @@ public class FileController {
 	}
 	
 	/**
-	 * 删除文件和数据库中的记录
-	 * charset=utf-8 处理文件中文名称
+	 * 根据文件名删除文件和数据库中的记录
 	 * @return
 	 */
 	@RequestMapping(value = "/delete1", method = RequestMethod.POST)
@@ -110,6 +107,34 @@ public class FileController {
 		}
 		return JSON.toJSONString(new Response().failure("FileDelect Failure..."));
 	}
+	
+	/**
+	 * 根据文件id删除文件和数据库中的记录
+	 * @param fileId
+	 * @return
+	 */
+	@RequestMapping(value = "/delete2", method = RequestMethod.POST)
+	public String fileDelete(@RequestParam("fileId") int fileId) {
+		System.out.println("controller" +  fileId);
+		boolean flag = fileService.fileDelete(fileId);
+		if (flag) {
+			return JSON.toJSONString(new Response().success("FileDelect Success..."));
+		}
+		return JSON.toJSONString(new Response().failure("FileDelect Failure..."));
+	}
+	
+	/**
+	 * 文件下载
+	 * @return
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.POST)
+	public String fileDownload() {
+		
+		
+		return null;
+		
+	}
+	
 	
 	/**
 	 * 显示文件列表（后面应该实现显示论文列表）

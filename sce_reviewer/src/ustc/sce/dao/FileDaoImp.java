@@ -48,6 +48,26 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
         }
             return false;
 	}
+	
+	
+	public boolean fileDelete(int fileId) {
+		String hql="from FileEntity as file where file.id='"+fileId+"'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<FileEntity> list = query.list();
+        if(!list.isEmpty()){
+        	FileEntity fileEntity = list.get(0);
+        	String path = fileEntity.getFilePath();
+        	//path只是文件存储路径的后半部分  加上前面的才是完整的路径
+        	path = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + path;
+        	File file = new File(path);
+        	this.getHibernateTemplate().getSessionFactory().getCurrentSession().delete(fileEntity);
+        	file.delete();
+            return true;
+        }
+            return false;
+	}
+	
 
 	@Override
 	public List<FileEntity> fileList() {
@@ -69,5 +89,7 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
         List<FileEntity> list = query.list();
 		return list.get(0).getFilePath();
 	}
+
+	
 
 }
