@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 
 import ustc.sce.domain.FileEntity;
+import ustc.sce.domain.Page;
 import ustc.sce.domain.User;
 import ustc.sce.response.Response;
 import ustc.sce.service.FileService;
@@ -43,7 +44,6 @@ public class FileController {
 	 * 文件上传
 	 * 
 	 * @param file
-	 *            上传的文件
 	 * @return
 	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
@@ -91,6 +91,7 @@ public class FileController {
 		return JSON.toJSONString(new Response().failure("FileUpload Failure..."));
 	}
 
+	// 测试失败 不知道为什么不可以
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public String fileDelete(@RequestBody FileEntity fileEntity) {
 		String path = fileEntity.getFilePath();
@@ -106,7 +107,7 @@ public class FileController {
 	}
 
 	/**
-	 * 根据文件名删除文件和数据库中的记录
+	 * 根据文件名删除文件和数据库中的记录 文件名不能是中文 没有解决这个问题？？？
 	 * 
 	 * @return
 	 */
@@ -149,12 +150,14 @@ public class FileController {
 
 		// 得到filePath 拼接真实路径
 		FileEntity fe = fileService.getFile(fileName);
-		String fileType = fe.getFileType();
-		String filePath = fe.getFilePath();
-		String realPath = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + filePath;
 
-		File file = new File(realPath);
-		if (file.exists()) {
+		if (fe != null) {
+
+			String fileType = fe.getFileType();
+			String filePath = fe.getFilePath();
+			String realPath = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + filePath;
+
+			File file = new File(realPath);
 			OutputStream os = new BufferedOutputStream(response.getOutputStream());
 			response.setContentType("application/octet-stream");
 			fileName = fileName + "." + fileType;
@@ -168,10 +171,16 @@ public class FileController {
 
 	}
 
+	// 文件下载 第二种方法
 	@RequestMapping(value = "/download1")
-	public ResponseEntity<byte[]> download(@RequestParam("fileName") String fileName) throws IOException {
-		
+	public ResponseEntity<byte[]> download(@RequestParam("fileName") String fileName, HttpServletResponse response)
+			throws IOException {
+
 		FileEntity fe = fileService.getFile(fileName);
+
+		if (fe == null) {
+			return null;
+		}
 		String fileType = fe.getFileType();
 		String filePath = fe.getFilePath();
 		String realPath = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + filePath;
@@ -189,8 +198,7 @@ public class FileController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/fileList",method=RequestMethod.POST,produces="text/html;charset=utf-8")
-
+	@RequestMapping(value = "/fileList", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
 	public String fileList() {
 		List<FileEntity> fileEntity = fileService.fileList();
 		if (!fileEntity.isEmpty()) {
@@ -208,7 +216,30 @@ public class FileController {
 	}
 
 	/**
-	 * 文件详情 显示成网页版进行批注
+	 * 分页显示文件列表 默认每页3条记录
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/fileList1", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
+	public String fileList(@RequestParam(value = "pageNo",required = false,defaultValue = "1") String pageNo,
+			@RequestParam(value = "pageSize",required = false,defaultValue = "5") int pageSize) {
+
+		Page page = fileService.getForPage(Integer.valueOf(pageNo), pageSize);
+		List<FileEntity> pageFileEntity = page.getList();
+		if (!pageFileEntity.isEmpty()) {
+			for (int i = 0; i < pageFileEntity.size(); i++) {
+				String filePath = pageFileEntity.get(i).getFilePath();
+				filePath = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + filePath;
+				pageFileEntity.get(i).setFilePath(filePath);
+			}
+			return JSON.toJSONString(new Response().success(pageFileEntity));
+		}
+		return JSON.toJSONString(new Response().failure("FileList Failure..."));
+
+	}
+
+	/**
+	 * 文件详情 显示成网页版进行批注 文件名不能是中文 和delete1问题相同
 	 * 
 	 * @param fileName
 	 * @return
@@ -221,6 +252,27 @@ public class FileController {
 		if (filePath != null) {
 			filePath = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + filePath;
 			return JSON.toJSONString(new Response().success(filePath));
+		}
+		return JSON.toJSONString(new Response().failure("fileShow Failure..."));
+
+	}
+
+	/**
+	 * 文件详情 显示成网页版进行批注 传入fileId 返回file用file中的filePath
+	 * 
+	 * @param fileId
+	 * @return
+	 */
+	@RequestMapping(value = "/fileShow1", method = RequestMethod.POST, produces = "text/html;charset=utf-8")
+	public String fileShow(@RequestParam("fileId") int fileId) {
+
+		FileEntity file = fileService.fielShow(fileId);
+
+		if (file != null) {
+			String filePath = file.getFilePath();
+			filePath = "J:\\eclipse\\apache-tomacat-7.0.47\\webapps\\upload\\" + filePath;
+			file.setFilePath(filePath);
+			return JSON.toJSONString(new Response().success(file));
 		}
 		return JSON.toJSONString(new Response().failure("fileShow Failure..."));
 

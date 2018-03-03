@@ -102,6 +102,35 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
             return null;
 	}
 
+	@Override
+	public FileEntity fileShow(int fileId) {
+		String hql="from FileEntity as file where file.id='"+fileId+"'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<FileEntity> list = query.list();
+		return list.get(0);
+	}
+
+	@Override
+	public Long getAllRowCount() {
+		String hql = "SELECT COUNT(*) FROM FileEntity";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+		return Long.parseLong(query.uniqueResult().toString());
+	}
+
+	@Override
+	public List<FileEntity> getForPage(int offset, int pageSize) {
+		List<FileEntity> fileEntityList = null;
+		String hql="from FileEntity";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        query.setFirstResult(offset);
+        query.setMaxResults(pageSize);
+        fileEntityList = query.list();
+		return fileEntityList;
+	}
+
 	
 
 }

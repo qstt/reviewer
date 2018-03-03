@@ -43,6 +43,12 @@
         p:maxInMemorySize="54000000"
      />   
      
+     <!-- 静态资源访问 -->
+     <!-- <mvc:default-servlet-handler/> -->
+     <mvc:resources location="/jsp/" mapping="/jsp/**"/>
+     <!-- 为什么在WEB-INF下的静态资源没法访问 -->
+     <mvc:resources location="classpath:/WEB-INF/jsp/" mapping="/jsp/**"/>
+     
     <!-- 拦截器   验证用户是否登录 -->
    <!--  <mvc:interceptors>
     	<mvc:interceptor>

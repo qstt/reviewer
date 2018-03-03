@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ustc.sce.dao.FileDao;
 import ustc.sce.domain.FileEntity;
+import ustc.sce.domain.Page;
 
 @Transactional
 public class FileServiceImp implements FileService {
@@ -53,6 +54,28 @@ public class FileServiceImp implements FileService {
 	@Override
 	public FileEntity getFile(String fileName) {
 		return fileDao.getFile(fileName);
+	}
+
+
+	@Override
+	public FileEntity fielShow(int fileId) {
+		return fileDao.fileShow(fileId);
+	}
+
+
+	@Override
+	public Page getForPage(int currentPage, int pageSize) {
+		
+		Page page = new Page();
+		int allRow = fileDao.getAllRowCount().intValue();
+		int offset = page.countOffset(currentPage, pageSize);
+		List<FileEntity> list = fileDao.getForPage(offset,pageSize);
+		page.setPageNo(currentPage);
+        page.setPageSize(pageSize);
+        page.setTotalRecords(allRow);
+        page.setList(list);
+        return page;
+        
 	}
 
 

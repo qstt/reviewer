@@ -20,4 +20,10 @@ public interface FileDao {
 
 	FileEntity getFile(String fileName);
 
+	FileEntity fileShow(int fileId);
+
+	Long getAllRowCount();
+
+	List<FileEntity> getForPage(int offset, int pageSize);
+
 }

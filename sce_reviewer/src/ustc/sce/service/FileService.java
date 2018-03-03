@@ -3,6 +3,7 @@ package ustc.sce.service;
 import java.util.List;
 
 import ustc.sce.domain.FileEntity;
+import ustc.sce.domain.Page;
 
 public interface FileService {
 
@@ -19,6 +20,10 @@ public interface FileService {
 	boolean fileDelete(FileEntity fileEntity);
 
 	FileEntity getFile(String fileName);
+
+	FileEntity fielShow(int fileId);
+
+	Page getForPage(int currentPage, int pageSize);
 	
 	
 
