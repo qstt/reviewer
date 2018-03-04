@@ -113,6 +113,7 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
 
 	@Override
 	public Long getAllRowCount() {
+		//COUNT(*) 函数返回表中的记录数
 		String hql = "SELECT COUNT(*) FROM FileEntity";
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
         Query query =session.createQuery(hql);

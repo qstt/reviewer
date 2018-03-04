@@ -140,7 +140,6 @@ public class FileController {
 
 	/**
 	 * 文件下载
-	 * 
 	 * @return
 	 * @throws IOException
 	 */

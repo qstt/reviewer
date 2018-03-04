@@ -1,0 +1,50 @@
+数据库设计：   按照用户使用来设计数据库
+		权限：rbac基于角色的权限管理
+user：用户
+	id:int
+	userName:string
+	userPassword:string
+role：角色   老师  学生
+	id:int
+	roleName：string   老师   学生
+user_role:user和role多对多的关联（这个不用显示写出来    数据库中会根据关联情况自动生成）
+	id:int
+	userId:int   外键
+	roleId:int   外键  
+
+		业务逻辑（一个业务逻辑只完成一个任务）
+file:pdf文件    对文件有删除和详情的操作
+	id:int 
+	fileName:string    文件名称
+	filetype：string   文件类型   默认pdf （默认pdf该如何写？？？）
+	filePath:string    文件位置
+	userId:int    外键   关联用户    一对多  用户是一方   文件是多方   只在文件中维护这个关联
+ //      paperId：int   外键   关联论文    文件和论文一对多的关系         修改为在论文中维护这个关系
+paper:论文（创建论文来提供论文题目作者之类的信息，文件可以为空后面上传）
+	id:int
+	paperTitle:string   论文题目
+	paperAuthor:string   作者
+	paperOwner:string    论文所有者（感觉和用户有些冲突   先保留）
+	ispublic：boolean     论文公开和私有
+	fileId：int   外键   关联文件    文件和论文一对多的关系   只在论文中维护这个关联   可以为空（约束）
+
+文件名称、类型和论文题目、作者、论文所有者、论文公开私有   是在论文上传时手动填入  一起上传到数据库中
+
+
+paper_review：论文评审
+	id:int
+	paperStatus:int   论文状态  未提交0  正在评审1  已定稿2
+	paperId:int   外键   关联论文    一对一的关系   当成一对多的特殊关系  论文评审当成多方   不能为空（约束）
+	userId:int   外键  关联用户   谁评论的  用户和论文评审是一对多的关系  一个用户可以对多个论文进行评审   论文是多方
+
+annotation：批注
+	id：int
+	annotationSelect：string     选中的字段
+	annotationContent：string  批注/评论内容
+	fileId:int    外键   关联pdf文件     文件和批注是一对多的关系   批注是多方  只在多方进行关联
+	userId:int   外键    关联用户   谁批注的   用户和批注是一对多的关系   批注是多方   只在多方进行关联
+	paperId:int   外键   关联论文    （是否需要不确定） 暂时没有写到代码中
+
+
+
+      
