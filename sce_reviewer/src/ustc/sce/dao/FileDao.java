@@ -3,6 +3,7 @@ package ustc.sce.dao;
 import java.util.List;
 
 import ustc.sce.domain.FileEntity;
+import ustc.sce.domain.Page;
 
 public interface FileDao {
 
@@ -22,8 +23,10 @@ public interface FileDao {
 
 	FileEntity fileShow(int fileId);
 
-	Long getAllRowCount();
+	Page getForPage(int currentPage, int pageSize);
 
-	List<FileEntity> getForPage(int offset, int pageSize);
+//	Long getAllRowCount();
+//
+//	List<FileEntity> getForPage(int offset, int pageSize);
 
 }

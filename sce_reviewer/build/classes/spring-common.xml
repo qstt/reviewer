@@ -53,6 +53,7 @@
 				<value>ustc/sce/domain/PaperReview.hbm.xml</value>
 				<value>ustc/sce/domain/Paper.hbm.xml</value>
 				<value>ustc/sce/domain/Annotation.hbm.xml</value>
+				<value>ustc/sce/domain/Collection.hbm.xml</value>
 				
 			</list>
 		</property>
@@ -82,6 +83,7 @@
 		<property name="fileDao" ref="fileDao"></property>
 	</bean>
 	<bean id="fileDao" class="ustc.sce.dao.FileDaoImp">
+		<property name="pageUtil" ref="pageUtil"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
@@ -111,6 +113,20 @@
 		<property name="annotationDao" ref="annotationDao"></property>	
 	</bean>
 	<bean id="annotationDao" class="ustc.sce.dao.AnnotationDaoImp">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- PageUtil -->
+	<bean id="pageUtil" class="ustc.sce.utils.PageUtil">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 公开论文 -->
+	<bean id="publicPaperService" class="ustc.sce.service.PublicPaperServiceImp">
+		<property name="publicPaperDao" ref="publicPaperDao"></property>
+	</bean>
+	<bean id="publicPaperDao" class="ustc.sce.dao.PublicPaperDaoImp">
+		<property name="pageUtil" ref="pageUtil"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 

@@ -13,8 +13,6 @@ import ustc.sce.utils.MD5Utils;
 
 public class UserDaoImp extends HibernateDaoSupport implements UserDao {
 
-
-	
 	@Override
 	public boolean login(String userName, String userPassword) {
 		String hql="select user.userName ,user.userPassword from User as user where user.userName='"+userName+"' and user.userPassword = '"+MD5Utils.md5(userPassword)+"'";
@@ -26,7 +24,6 @@ public class UserDaoImp extends HibernateDaoSupport implements UserDao {
         }
             return true;
 	}
-
 
 	@Override
 	public boolean register(String userName, String userPassword, String roleName) {
@@ -44,7 +41,6 @@ public class UserDaoImp extends HibernateDaoSupport implements UserDao {
 	            return true;
 	}
 
-
 	/**
 	 * 检测用户是否已经注册
 	 */
@@ -58,7 +54,6 @@ public class UserDaoImp extends HibernateDaoSupport implements UserDao {
         }
             return list.get(0);
 	}
-
 
 	@Override
 	public User resetPassword(String userName, String userPassword) {
@@ -74,6 +69,26 @@ public class UserDaoImp extends HibernateDaoSupport implements UserDao {
         this.getHibernateTemplate().getSessionFactory().getCurrentSession().update(user);
         
 		return user;
+	}
+
+	@Override
+	public boolean exit(String userName) {
+		
+		String hql="from User as user where user.userName='"+userName+"'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<User> list = query.list();
+        
+        User user = list.get(0);
+        this.getHibernateTemplate().getSessionFactory().getCurrentSession().delete(user);
+        
+        Query query1 =session.createQuery(hql);
+        List<User> list1 = query1.list();
+        
+        if(list1.isEmpty()) {
+        	return true;
+        }
+		return false;
 	}
 
 }

@@ -13,7 +13,7 @@ import ustc.sce.domain.Paper;
 public class PaperDaoImp extends HibernateDaoSupport implements PaperDao {
 
 	@Override
-	public boolean createPaper(String paperTitle, String paperAuthor, String paperOwner, boolean ispublic,
+	public Paper createPaper(String paperTitle, String paperAuthor, String paperOwner, boolean ispublic,
 			int fileId) {
 		
 		Paper paper = new Paper();
@@ -23,20 +23,49 @@ public class PaperDaoImp extends HibernateDaoSupport implements PaperDao {
 		paper.setPaperOwner(paperOwner);
 		paper.setIspublic(ispublic);
 		
-		String hql="from FileEntity as file where file.id='"+fileId+"'";
+		if(fileId != -1) {
+			String hql="from FileEntity as file where file.id='"+fileId+"'";
+			Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+	        Query query =session.createQuery(hql);
+	        List<FileEntity> list = query.list();
+	        FileEntity fileEntity = list.get(0);
+			
+			paper.setFileEntity(fileEntity);
+		}
+		
+		this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(paper);
+		
+        return paper;
+	}
+
+	@Override
+	public Paper addPDF(int paperId, int fileId) {
+		
+		String hql="from Paper as paper where paper.id='"+paperId+"'";
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
         Query query =session.createQuery(hql);
-        List<FileEntity> list = query.list();
-        FileEntity fileEntity = list.get(0);
-		
-		paper.setFileEntity(fileEntity);
-		
-		Serializable save = this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(paper);
-		
-		if(save == null){
-            return false;
+        List<Paper> list = query.list();
+        
+        String hql1="from FileEntity as file where file.id='"+fileId+"'";
+		Session session1 = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query1 =session1.createQuery(hql1);
+        List<FileEntity> list1 = query1.list();
+        
+        if(list.isEmpty()) {
+        	return null;
         }
-            return true;
+        if(list1.isEmpty()) {
+    		return null;
+    	}
+        
+        Paper paper = list.get(0);
+        FileEntity fileEntity = list1.get(0);
+    	paper.setFileEntity(fileEntity);
+    	
+    	this.getHibernateTemplate().getSessionFactory().getCurrentSession().update(paper);
+    	
+    	return paper;
+		
 	}
 
 }

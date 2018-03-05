@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -110,12 +111,16 @@ public class FileController {
 	 * 根据文件名删除文件和数据库中的记录 文件名不能是中文 没有解决这个问题？？？
 	 * 
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/delete1", method = RequestMethod.POST)
-	public String fileDelete(@RequestParam("fileName") String fileName) {
+	public String fileDelete(@RequestParam("fileName") String fileName,HttpServletRequest request) throws UnsupportedEncodingException {
+		System.out.println(request.getCharacterEncoding());
+		
+		String str=new String(fileName.getBytes("iso-8859-1"), "utf-8");
 		// 中文文件名乱码问题没有解决？？？
-		System.out.println("controller" + fileName);
-		boolean flag = fileService.fileDelete(fileName);
+		System.out.println("controller" + "     " + str);
+		boolean flag = fileService.fileDelete(str);
 		if (flag) {
 			return JSON.toJSONString(new Response().success("FileDelect Success..."));
 		}

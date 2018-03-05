@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
-import ustc.sce.domain.PaperReview;
 import ustc.sce.domain.Token;
 import ustc.sce.domain.User;
 

@@ -54,4 +54,10 @@ public class UserServiceImp implements UserService {
 		return userDao.resetPassword(userName,userPassword);
 	}
 
+
+	@Override
+	public boolean exit(String userName) {
+		return userDao.exit(userName);
+	}
+
 }

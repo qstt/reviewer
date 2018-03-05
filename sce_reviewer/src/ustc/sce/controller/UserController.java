@@ -55,8 +55,7 @@ public class UserController {
 
 		boolean flag = userService.register(userName, userPassword, roleName);
 		if (flag) {
-			Token token = tokenManager.createToken(userName);
-			return JSON.toJSONString(new Response().success(token));
+			return JSON.toJSONString(new Response().success("Register Success..."));
 		}
 		return JSON.toJSONString(new Response().failure("Register Failure..."));
 	}
@@ -68,7 +67,7 @@ public class UserController {
 		
 		boolean flag = userService.login(userName, userPassword);
 		if (flag) {
-			Token token = tokenManager.changeToken(userName);
+			Token token = tokenManager.createToken(userName);
 			String token3 = token.getToken();
 			Cookie cookie = new Cookie("X-Token", token3);
 			response.addCookie(cookie);
@@ -78,17 +77,18 @@ public class UserController {
 	}
 
 	/**
-	 * 退出登录   删除token
+	 * 退出登录   删除数据库中的token
 	 * @param response
 	 * @return
 	 */
 	@RequestMapping(value = "/exit", method = RequestMethod.POST)
-	public String exit(HttpServletResponse response) {
+	public String exit(@RequestParam("userName") String userName) {
 		
-		//将cookie中的X-Token设为空    不确定是否对
-		Cookie cookie = new Cookie("X-Token", null);
-		response.addCookie(cookie);
-		return JSON.toJSONString(new Response().success(cookie));
+		boolean flag = userService.exit(userName);
+		if (flag) {
+			return JSON.toJSONString(new Response().success("Exit Success..."));
+		}
+		return JSON.toJSONString(new Response().failure("Exit Failure..."));
 		
 	}
 	

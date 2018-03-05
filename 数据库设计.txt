@@ -12,7 +12,7 @@ user_role:user和role多对多的关联（这个不用显示写出来    数据库中会根据关联情况自
 	userId:int   外键
 	roleId:int   外键  
 
-		业务逻辑（一个业务逻辑只完成一个任务）
+		业务逻辑（一个业务逻辑只完成一个任务）    
 file:pdf文件    对文件有删除和详情的操作
 	id:int 
 	fileName:string    文件名称
@@ -26,8 +26,8 @@ paper:论文（创建论文来提供论文题目作者之类的信息，文件可以为空后面上传）
 	paperAuthor:string   作者
 	paperOwner:string    论文所有者（感觉和用户有些冲突   先保留）
 	ispublic：boolean     论文公开和私有
-	fileId：int   外键   关联文件    文件和论文一对多的关系   只在论文中维护这个关联   可以为空（约束）
-
+	fileId：int   外键   关联文件    文件和论文一对一的关系   只在论文中维护这个关联   可以为空（约束）
+	
 文件名称、类型和论文题目、作者、论文所有者、论文公开私有   是在论文上传时手动填入  一起上传到数据库中
 
 
@@ -42,9 +42,14 @@ annotation：批注
 	annotationSelect：string     选中的字段
 	annotationContent：string  批注/评论内容
 	fileId:int    外键   关联pdf文件     文件和批注是一对多的关系   批注是多方  只在多方进行关联
-	userId:int   外键    关联用户   谁批注的   用户和批注是一对多的关系   批注是多方   只在多方进行关联
-	paperId:int   外键   关联论文    （是否需要不确定） 暂时没有写到代码中
+	// userId:int   外键    关联用户   谁批注的   用户和批注是一对多的关系   批注是多方   只在多方进行关联
+	// paperId:int   外键   关联论文    （是否需要不确定） 暂时没有写到代码中
 
+
+collect：收藏
+	id：int
+	collectUserId：int
+	collectPaperId：int
 
 
       

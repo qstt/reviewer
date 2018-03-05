@@ -12,4 +12,6 @@ public interface UserDao {
 
 	public User resetPassword(String userName, String userPassword);
 
+	public boolean exit(String userName);
+
 }

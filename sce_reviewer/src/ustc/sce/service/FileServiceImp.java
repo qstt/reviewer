@@ -63,22 +63,24 @@ public class FileServiceImp implements FileService {
 	}
 
 
-	@Override
+//	@Override
+//	public Page getForPage(int currentPage, int pageSize) {
+//		
+//		Page page = new Page();
+//		int allRow = fileDao.getAllRowCount().intValue();
+//		int offset = page.countOffset(currentPage, pageSize);
+//		List<FileEntity> list = fileDao.getForPage(offset,pageSize);
+//		page.setPageNo(currentPage);
+//        page.setPageSize(pageSize);
+//        page.setTotalRecords(allRow);
+//        page.setList(list);
+//        return page;
+//        
+//	}
+
 	public Page getForPage(int currentPage, int pageSize) {
-		
-		Page page = new Page();
-		int allRow = fileDao.getAllRowCount().intValue();
-		int offset = page.countOffset(currentPage, pageSize);
-		List<FileEntity> list = fileDao.getForPage(offset,pageSize);
-		page.setPageNo(currentPage);
-        page.setPageSize(pageSize);
-        page.setTotalRecords(allRow);
-        page.setList(list);
-        return page;
-        
+		return fileDao.getForPage(currentPage, pageSize);
 	}
-
-
 	
 
 }

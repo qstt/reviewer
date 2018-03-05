@@ -8,8 +8,15 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 import ustc.sce.domain.FileEntity;
+import ustc.sce.domain.Page;
+import ustc.sce.utils.PageUtil;
 
 public class FileDaoImp extends HibernateDaoSupport implements FileDao {
+	
+	private PageUtil pageUtil;
+	public void setPageUtil(PageUtil pageUtil) {
+		this.pageUtil = pageUtil;
+	}
 
 	public void FileSave(FileEntity fileUpload) {
 //		this.getHibernateTemplate().save(fileUpload);  运行时会报错说找不到sessionFaction  不知道为什么会报错？？？
@@ -112,25 +119,34 @@ public class FileDaoImp extends HibernateDaoSupport implements FileDao {
 	}
 
 	@Override
-	public Long getAllRowCount() {
-		//COUNT(*) 函数返回表中的记录数
-		String hql = "SELECT COUNT(*) FROM FileEntity";
-		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-        Query query =session.createQuery(hql);
-		return Long.parseLong(query.uniqueResult().toString());
+	public Page getForPage(int currentPage, int pageSize) {
+
+		String hql1 = "SELECT COUNT(*) FROM FileEntity";
+		String hql2="from FileEntity";
+		Page page = pageUtil.getForPage(hql1, hql2, currentPage, pageSize);
+		return page;
 	}
 
-	@Override
-	public List<FileEntity> getForPage(int offset, int pageSize) {
-		List<FileEntity> fileEntityList = null;
-		String hql="from FileEntity";
-		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-        Query query =session.createQuery(hql);
-        query.setFirstResult(offset);
-        query.setMaxResults(pageSize);
-        fileEntityList = query.list();
-		return fileEntityList;
-	}
+//	@Override
+//	public Long getAllRowCount() {
+//		//COUNT(*) 函数返回表中的记录数
+//		String hql = "SELECT COUNT(*) FROM FileEntity";
+//		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+//        Query query =session.createQuery(hql);
+//		return Long.parseLong(query.uniqueResult().toString());
+//	}
+//
+//	@Override
+//	public List<FileEntity> getForPage(int offset, int pageSize) {
+//		List<FileEntity> fileEntityList = null;
+//		String hql="from FileEntity";
+//		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+//        Query query =session.createQuery(hql);
+//        query.setFirstResult(offset);
+//        query.setMaxResults(pageSize);
+//        fileEntityList = query.list();
+//		return fileEntityList;
+//	}
 
 	
 
