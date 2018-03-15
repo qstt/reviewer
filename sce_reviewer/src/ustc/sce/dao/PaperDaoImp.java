@@ -40,7 +40,6 @@ public class PaperDaoImp extends HibernateDaoSupport implements PaperDao {
 
 	@Override
 	public Paper addPDF(int paperId, int fileId) {
-		
 		String hql="from Paper as paper where paper.id='"+paperId+"'";
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
         Query query =session.createQuery(hql);
@@ -61,6 +60,7 @@ public class PaperDaoImp extends HibernateDaoSupport implements PaperDao {
         Paper paper = list.get(0);
         FileEntity fileEntity = list1.get(0);
     	paper.setFileEntity(fileEntity);
+    	
     	
     	this.getHibernateTemplate().getSessionFactory().getCurrentSession().update(paper);
     	

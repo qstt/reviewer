@@ -1,5 +1,7 @@
 package ustc.sce.service;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import ustc.sce.dao.UserDao;
@@ -58,6 +60,12 @@ public class UserServiceImp implements UserService {
 	@Override
 	public boolean exit(String userName) {
 		return userDao.exit(userName);
+	}
+
+
+	@Override
+	public List<Role> getRole() {
+		return userDao.getRole();
 	}
 
 }

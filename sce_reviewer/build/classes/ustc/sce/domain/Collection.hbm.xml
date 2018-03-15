@@ -16,7 +16,7 @@
 			name 	集合的名称
 			table	中间表的名称
 		-->
-		<set name="collectUsers" table="collection_user" cascade="save-update" lazy="false">
+		<set name="collectUsers" table="collection_user" lazy="false">
 			<!-- 当前对象在中间表的外键的名称 -->
 			<key column="collectionId"/>
 			<!--

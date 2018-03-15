@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import ustc.sce.domain.Role;
+import ustc.sce.domain.Token;
 import ustc.sce.domain.User;
 import ustc.sce.utils.MD5Utils;
 
@@ -28,10 +29,15 @@ public class UserDaoImp extends HibernateDaoSupport implements UserDao {
 	@Override
 	public boolean register(String userName, String userPassword, String roleName) {
 		User user = new User();
-		Role role = new Role();
 		user.setUserName(userName);
 		user.setUserPassword(userPassword);
-		role.setRoleName(roleName);
+		
+		String hql="from Role as role where role.roleName='"+roleName+"'";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<Role> list = query.list();
+        Role role = list.get(0);
+		
 		user.getRoles().add(role);
 		
 		Serializable save = this.getHibernateTemplate().getSessionFactory().getCurrentSession().save(user);
@@ -74,21 +80,32 @@ public class UserDaoImp extends HibernateDaoSupport implements UserDao {
 	@Override
 	public boolean exit(String userName) {
 		
-		String hql="from User as user where user.userName='"+userName+"'";
+		String hql="from Token as token where token.userName='"+userName+"'";
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
         Query query =session.createQuery(hql);
-        List<User> list = query.list();
+        List<Token> list = query.list();
         
-        User user = list.get(0);
-        this.getHibernateTemplate().getSessionFactory().getCurrentSession().delete(user);
+        Token token = list.get(0);
+        this.getHibernateTemplate().getSessionFactory().getCurrentSession().delete(token);
         
         Query query1 =session.createQuery(hql);
-        List<User> list1 = query1.list();
+        List<Token> list1 = query1.list();
         
         if(list1.isEmpty()) {
         	return true;
         }
 		return false;
+	}
+
+	@Override
+	public List<Role> getRole() {
+
+		String hql="from Role";
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        Query query =session.createQuery(hql);
+        List<Role> list = query.list();
+		
+		return list;
 	}
 
 }

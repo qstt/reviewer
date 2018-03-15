@@ -129,5 +129,14 @@
 		<property name="pageUtil" ref="pageUtil"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- 个人中心 -->
+	<bean id="individualCenterService" class="ustc.sce.service.IndividualCenterServiceImp">
+		<property name="individualCenterDao" ref="individualCenterDao"></property>
+	</bean>
+	<bean id="individualCenterDao" class="ustc.sce.dao.IndividualCenterDaoImp">
+		<property name="pageUtil" ref="pageUtil"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 </beans>

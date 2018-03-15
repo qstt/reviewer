@@ -18,6 +18,11 @@ public class Response {
 		this.data = data;
 		return this;
 	}
+	
+	public Response success(String message) {
+		this.meta = new Meta(true, message);
+		return this;
+	}
 
 	public Response failure() {
 		this.meta = new Meta(false, ERROR);
